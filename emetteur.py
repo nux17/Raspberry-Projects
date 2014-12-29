@@ -14,8 +14,8 @@ class Emetteur(object):
         GPIO.setup(OUT, GPIO.OUT, initial=False)
 
     def send_byte(self):
-        p = GPIO.PWM(OUT, 300)
-        p.start(5)
+        p = GPIO.PWM(OUT, 120)
+        p.start(20)
         time.sleep(LEVEL)
         p.stop()
         
@@ -24,19 +24,17 @@ class Emetteur(object):
             self.send_byte()
             time.sleep(LEVEL)
             binary = bin(ord(char))[2:]
-            for i in range(0, len(binary) - 1):
+            while len(binary) < 8:
+                binary = "0" + binary
+            for i in range(0, len(binary)):
                 if binary[i] == '1':
                     self.send_byte()
                 else:
                     time.sleep(LEVEL)
-                time.sleep(LEVEL)
-            while i < 7:
-                time.sleep(LEVEL)
-                i += 1
-                
+            
     def listen(self):
         while True:
-            payload = str(input("Chat : "))
+            payload = str(input("Chat : ")) + "\n"
             self.send_payload(payload)
             
 instance = Emetteur()
