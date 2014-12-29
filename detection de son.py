@@ -48,7 +48,7 @@ class Detection(object):
                     cpt += 1
                 self.bit = 0
                 composed = "".join(self.char)
-                print (chr(int(composed, 2)))
+                print (chr(int(composed, 2)), end='')
                 
 
 a = Detection()
